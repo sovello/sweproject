@@ -15,7 +15,6 @@ spring.messages.encoding=UTF-8
 spring.thymeleaf.mode=LEGACYHTML5
 ##server.contextPath=/StudentSpringBoot
 
-
 #"You can delete content beyond this point"
 #==========================================
 # ===============================

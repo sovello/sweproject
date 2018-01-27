@@ -43,6 +43,15 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3" lang="en">
 	    <!-- Collect the nav links, forms, and other content for toggling -->
 	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 	      <ul class="nav navbar-nav navbar-right">
+	      	<th:block sec:authorize="isAuthenticated()">
+	      	<li><a th:href="@{/dashboard}">[Dashboard]</a></li>
+	      	<li><a th:href="@{/entries}">[Entries]</a></li>
+	      	<li><a th:href="@{/blocks}">[Blocks]</a></li>
+	      	<li><a th:href="@{/courses}">[Courses]</a></li>
+	      	<li><a th:href="@{/faculty}">[Faculty]</a></li>
+	      	<li><a th:href="@{/dashboard}">[Sections]</a></li>
+	      	<li><a th:href="@{/dashboard}">[Schedules]</a></li>
+	      	</th:block>
 	      	<li><a th:href="@{/login}">Login</a></li>
 	      	<li><a th:href="@{/home}">Home</a></li>
 	        <li class="dropdown">
