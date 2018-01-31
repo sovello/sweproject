@@ -9,6 +9,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Email;
@@ -25,11 +26,15 @@ public class User {
 	
 	@Email
 	@NotNull
+	@Column(unique=true)
 	private String email;
 	
 	@Length(min = 5)
 	@NotNull
 	private String password;
+	
+	@Transient
+	private String confirmPassword;
 	
 	@NotNull
 	private String firstname;
@@ -57,6 +62,14 @@ public class User {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+	
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
 	}
 
 	public String getPassword() {

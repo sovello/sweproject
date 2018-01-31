@@ -16,8 +16,8 @@ public class MUMSchedulerController {
 	 * @return
 	 */
 	@RequestMapping(value= {"/", "home"})
-	public String home(Principal principal) {
-        return principal == null ? "index" : "redirect:/dashboard";
+	public String home(Principal principal) {		
+		return principal == null ? "index" : "redirect:/dashboard";
 	}
 	
 	@RequestMapping(value="/login")
@@ -27,7 +27,7 @@ public class MUMSchedulerController {
 	}
 	
 	@RequestMapping(value="/dashboard")
-	public String dashboard(Model model) {
+	public String dashboard(Model model) {		
 		model.addAttribute("activeTab", "dashboard");
 		return "dashboard";
 	}

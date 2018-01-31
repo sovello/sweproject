@@ -38,7 +38,7 @@ public class BlockController {
 	 * @return
 	 */
 	@GetMapping("/blocks")
-	public String blocksHome(Model model) {
+	public String getBlockDashboard(Model model) {
 		model.addAttribute("activeTab", this.activeTab);
 		model.addAttribute("blocks", blockService.getBlockList());
 		return "block/block-list";
@@ -65,7 +65,7 @@ public class BlockController {
 	 * @return
 	 */
 	@GetMapping("/blocks/new")
-	public String displayNewBlockForm(Model model) {
+	public String getNewBlockForm(Model model) {
 		model.addAttribute("activeTab", this.activeTab);
 		model.addAttribute("entries", entryService.getEntryList());
 		model.addAttribute("block", new Block());
@@ -77,7 +77,7 @@ public class BlockController {
 	 * @return
 	 */
 	@RequestMapping(value="/blocks/{id}", method=RequestMethod.GET)
-	public String displayEditBlockForm(@PathVariable("id") Long id, Model model) {
+	public String getEditBlockForm(@PathVariable("id") Long id, Model model) {
 		model.addAttribute("activeTab", this.activeTab);
 		model.addAttribute("block", blockService.getBlock(id));
 		return "block/block-form";
