@@ -1,0 +1,15 @@
+[INFO ] 2018-01-26 16:43:28.952 [main] MUMSchedulerApp - Starting MUMSchedulerApp on fugit with PID 23325 (/opt/diule/MUMScheduler/target/classes started by sovello in /opt/diule/MUMScheduler)
+[INFO ] 2018-01-26 16:43:28.953 [main] MUMSchedulerApp - No active profile set, falling back to default profiles: default
+[INFO ] 2018-01-26 16:43:32.972 [main] MUMSchedulerApp - Started MUMSchedulerApp in 4.256 seconds (JVM running for 5.005)
+[INFO ] 2018-01-26 16:43:44.165 [http-nio-8080-exec-1] MUMSchedulerController - Info message
+[WARN ] 2018-01-26 16:43:44.165 [http-nio-8080-exec-1] MUMSchedulerController - Warn message
+[ERROR] 2018-01-26 16:43:44.165 [http-nio-8080-exec-1] MUMSchedulerController - Error message
+[INFO ] 2018-01-26 17:11:26.069 [main] MUMSchedulerApp - Starting MUMSchedulerApp on fugit with PID 24545 (/opt/diule/MUMScheduler/target/classes started by sovello in /opt/diule/MUMScheduler)
+[INFO ] 2018-01-26 17:11:26.070 [main] MUMSchedulerApp - No active profile set, falling back to default profiles: default
+[INFO ] 2018-01-26 17:11:30.474 [main] MUMSchedulerApp - Started MUMSchedulerApp in 4.61 seconds (JVM running for 5.127)
+[INFO ] 2018-01-26 17:13:01.511 [http-nio-8080-exec-1] MUMSchedulerController - Info message
+[WARN ] 2018-01-26 17:13:01.511 [http-nio-8080-exec-1] MUMSchedulerController - Warn message
+[ERROR] 2018-01-26 17:13:01.511 [http-nio-8080-exec-1] MUMSchedulerController - Error message
+[INFO ] 2018-01-26 17:15:27.733 [http-nio-8080-exec-1] MUMSchedulerController - Info message
+[WARN ] 2018-01-26 17:15:27.733 [http-nio-8080-exec-1] MUMSchedulerController - Warn message
+[ERROR] 2018-01-26 17:15:27.733 [http-nio-8080-exec-1] MUMSchedulerController - Error message

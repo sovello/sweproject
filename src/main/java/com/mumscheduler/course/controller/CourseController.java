@@ -2,6 +2,7 @@ package com.mumscheduler.course.controller;
 
 import com.mumscheduler.course.model.Course;
 import com.mumscheduler.course.service.CourseService;
+import com.mumscheduler.faculty.service.FacultyService;
 
 import java.util.List;
 
@@ -23,12 +24,23 @@ public class CourseController {
 	
 	@Autowired
 	private CourseService courseService;
+	
+	@Autowired
+	private FacultyService facultyService;
+	
+	/**
+	 * change this when the URLs change
+	 * this variable sets the current tab to active in the HTML
+	 */
+	private final String activeTab = "courses";
+	
 	/**
 	 * Display all the courses
 	 * @return
 	 */
 	@GetMapping("/courses")
 	public String coursesHome(Model model) {
+		model.addAttribute("activeTab", this.activeTab);
 		List<Course> courses = courseService.getCourseList();
 		model.addAttribute("courses", courses);
 		return "course/course-list";
@@ -54,6 +66,8 @@ public class CourseController {
 	 */
 	@GetMapping("/courses/new")
 	public String displayNewCourseForm(Model model) {
+		model.addAttribute("activeTab", this.activeTab);
+		model.addAttribute("allFaculty", facultyService.getFacultyList());
 		model.addAttribute("course", new Course());
 		return "course/course-form";
 	}
@@ -64,6 +78,8 @@ public class CourseController {
 	 */
 	@RequestMapping(value="/courses/{id}", method=RequestMethod.GET)
 	public String displayEditCourseForm(@PathVariable("id") Long id, Model model) {
+		model.addAttribute("activeTab", this.activeTab);
+		model.addAttribute("allFaculty", facultyService.getFacultyList());
 		model.addAttribute("course", courseService.getCourse(id));
 		return "course/course-form";
 	}
