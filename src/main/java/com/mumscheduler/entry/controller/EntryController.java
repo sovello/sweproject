@@ -2,7 +2,7 @@ package com.mumscheduler.entry.controller;
 
 import com.mumscheduler.block.service.BlockServiceInterface;
 import com.mumscheduler.entry.model.Entry;
-import com.mumscheduler.entry.service.EntryService;
+import com.mumscheduler.entry.service.EntryServiceInterface;
 
 import java.time.LocalDate;
 
@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class EntryController {
 
 	@Autowired
-	private EntryService entryService;
+	private EntryServiceInterface entryService;
 	
 	@Autowired
 	private BlockServiceInterface blockService;
