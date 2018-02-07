@@ -123,7 +123,7 @@ public class FacultyController {
 	}
 	
 	/**
-	 * Handle updating a course
+	 * display a faculty profile
 	 * 
 	 * @return
 	 */
