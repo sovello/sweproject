@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" 
-xmlns:th="http://www.thymeleaf.org" 
-xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity" lang="en">
+	xmlns:th="http://www.thymeleaf.org" 
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
 
 	<head>
 		<meta charset="utf-8" />
@@ -43,7 +43,6 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity" lang="en">
 
 	<body>
 		<div class="overlay"></div>
-	
 	<nav class="navbar navbar-default">
 	  <div class="container-fluid">
 	    <!-- Brand and toggle get grouped for better mobile display -->
@@ -61,7 +60,16 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity" lang="en">
 	    <!-- Collect the nav links, forms, and other content for toggling -->
 	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 	      <ul class="nav navbar-nav navbar-right">
-	      	<li><a th:href="@{/logout}">Logout</a></li>
+	      	<th:block sec:authorize="isAuthenticated()">
+	      	<li th:class="${activeTab == 'dashboard'} ? 'active' : null"><a th:href="@{/dashboard}">[Dashboard]</a></li>
+	      	<li th:class="${activeTab == 'courses'} ? 'active' : null"><a th:href="@{/courses}">[Courses]</a></li>
+	      	<li th:class="${activeTab == 'blocks'} ? 'active' : null"><a th:href="@{/blocks}">[Blocks]</a></li>
+	      	<li th:class="${activeTab == 'entries'} ? 'active' : null"><a th:href="@{/entries}">[Entries]</a></li>
+	      	<li th:class="${activeTab == 'sections'} ? 'active' : null"><a th:href="@{/sections}">[Sections]</a></li>
+	      	<li th:class="${activeTab == 'schedules'} ? 'active' : null"><a th:href="@{/schedules}">[Schedules]</a></li>
+	      	<li th:class="${activeTab == 'faculty'} ? 'active' : null"><a th:href="@{/faculty}">[Faculty]</a></li>
+	      	<li th:class="${activeTab == 'students'} ? 'active' : null"><a th:href="@{/students}">[Students]</a></li>
+	      	</th:block>
 	      	<li><a th:href="@{/home}">Home</a></li>
 	        <li class="dropdown">
 	          <a href="#" class="dropdown-toggle" data-toggle="dropdown" 
@@ -72,6 +80,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity" lang="en">
 		        <th:block sec:authorize="isAuthenticated()">
 		        <li><a th:href="@{/logout}">Logout</a></li>
 		        </th:block>
+		        <li><a th:href="@{/login}">Login</a></li>
 	          </ul>
 	        </li>
 	      </ul>
@@ -86,11 +95,9 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity" lang="en">
 				<form action="#" th:action="@{/blocks}" th:object="${block}" method="post">
 				  <div class="form-group">
 				    <label for="serial">Block number</label>
-				    <input type="text" th:field="*{serial}" class="form-control" id="serial" placeholder="1" />
+				    <input type="number" th:field="*{serial}" class="form-control" id="serial" placeholder="1" />
 				  </div>
-				  <th:block th:if="${id != null}">
-				  	<input type="hidden" th:field="*{id}" />
-				  </th:block>
+				  <input type="hidden" th:field="*{id}" />
 				  <div class="form-group">
 				    <label for="name">Block name</label>
 				    <input type="text" th:field="*{name}" class="form-control" id="name" placeholder="February" />
@@ -103,8 +110,8 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity" lang="en">
 					    <span class="input-group-addon">
 	                        <span class="glyphicon glyphicon-calendar"></span>
 	                    </span>
-					    <div class="help-block with-errors" th:if="${#fields.hasErrors('startdate')}" th:errors="*{startdate}"></div>
 					</div>
+					<div class="help-block with-errors" th:if="${#fields.hasErrors('startdate')}" th:errors="*{startdate}"></div>
 				  </div>
 				  <div class="form-group">
 				    <label for="endDate">End date</label>
@@ -116,17 +123,6 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity" lang="en">
 	                </div>
 				    <div class="help-block with-errors" th:if="${#fields.hasErrors('enddate')}" th:errors="*{enddate}"></div>
 				  </div>
-				  <!-- 
-				  <div class="form-group">
-				    <label for="entry">Entry:</label>
-				    <select th:field="*{entry}" class="form-control" id="entry">
-				      <option
-				      	th:each="entry: ${entries}" 
-				      	th:value="${entry.id}"
-				      	th:text="${entry}">January 2018</option>
-				    </select>
-				  </div>
-				   -->
 				  <div class="form-group text-right">
 				  	<label for="submitButton">
 				  		<a th:href="@{/blocks}"><button type="button" class="btn btn-default btn-group">Cancel</button></a>
@@ -137,25 +133,30 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity" lang="en">
 			</div>
 		</div>
 	</div>
-	<div class="social-icons">
-		<ul class="list-unstyled text-center mb-0">
-			<li class="list-unstyled-item">
+	<nav class="navbar navbar-default navbar-fixed-bottom">
+	  <div class="container">
+	    &copy; 2018 MUMSched - Group 11
+	    <div class="social-icons">
+		<ul class="list-inline text-center">
+			<li>
 				<a href="#">
 					<i class="fa fa-twitter"></i>
 				</a>
 			</li>
-			<li class="list-unstyled-item">
+			<li>
 				<a href="#">
 			    	<i class="fa fa-facebook"></i>
 			  	</a>
 			</li>
-			<li class="list-unstyled-item">
+			<li>
 			  	<a href="#">
 			    	<i class="fa fa-instagram"></i>
 			  	</a>
 			</li>
 		</ul>
 	</div>
+	  </div>
+	</nav>
 	
 		<!-- Bootstrap core JavaScript -->
 		<script th:src="@{/standard/bootstrap/js/bootstrap.min.js}"></script>
