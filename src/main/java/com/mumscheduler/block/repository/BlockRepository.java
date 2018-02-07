@@ -23,4 +23,7 @@ public interface BlockRepository extends JpaRepository<Block, Long> {
 	@Query("FROM Block b WHERE b.name=:name AND b.startdate=:startdate AND b.enddate=:enddate")
 	public Block findBlockByNamesAndDates(@Param("name") String name, 
 			@Param("startdate") LocalDate startdate, @Param("enddate") LocalDate enddate);
+
+	@Query("FROM Block b WHERE b.startdate >= :today")
+	public List<Block> getAvailableBlocks(@Param("today") LocalDate today);
 }
