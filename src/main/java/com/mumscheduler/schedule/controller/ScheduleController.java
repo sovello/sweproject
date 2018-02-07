@@ -54,10 +54,11 @@ public class ScheduleController {
 	 * @return
 	 */
 	@PostMapping("/schedules")
-	public String createNewSection(@Valid @ModelAttribute("schedule") Schedule schedule, BindingResult bindingResult) {
+	public String createNewSchedule(@Valid @ModelAttribute("schedule") Schedule schedule, BindingResult bindingResult) {
 		if(bindingResult.hasErrors()) {
 			return "schedule/schedule-form";
 		}
+		scheduleService.generateSchedule(schedule.getEntry());
 		scheduleService.save(schedule);
 		return "redirect:/schedules";
 	}
@@ -72,11 +73,10 @@ public class ScheduleController {
 	 * @return
 	 */
 	@GetMapping("/schedules/new")
-	public String displayNewSectionForm(Model model) {
+	public String displayNewSectionForm(Model model, @ModelAttribute("schedule") Schedule schedule) {
 		model.addAttribute("activeTab", this.activeTab);
-		model.addAttribute("allBlocks", blockService.getBlockList());
 		model.addAttribute("allEntries", entryService.getEntryList());
-		model.addAttribute("schedule", new Schedule());
+		model.addAttribute("schedule", schedule);
 		return "schedule/schedule-form";
 	}
 	
