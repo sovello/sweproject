@@ -11,9 +11,18 @@ import org.springframework.stereotype.Service;
 @Service("blockService")
 public class BlockService implements BlockServiceInterface {
 
+	
 	@Autowired
 	BlockRepository blockRepository;
 	
+	@Override
+	public boolean blockExists(Block block) {
+		Block blk = blockRepository.findBlockByNamesAndDates(block.getName(), block.getStartdate(), block.getEnddate());
+		if( blk != null) {
+			return true;
+		}
+		return false;
+	}
 	@Override
 	public Block save(Block block) {
 		return blockRepository.save(block);
@@ -24,6 +33,7 @@ public class BlockService implements BlockServiceInterface {
 		return blockRepository.getOne(id);
 	}
 
+	
 	@Override
 	public List<Block> getBlockList() {
 		return blockRepository.findAll();
@@ -32,6 +42,11 @@ public class BlockService implements BlockServiceInterface {
 	@Override
 	public void delete(Long id) {
 		blockRepository.delete(id);
+	}
+
+	@Override
+	public List<Block> getBlocksBySectionId(Long id) {
+		return blockRepository.getBlocksBySectionId(id);
 	}
 
 }
