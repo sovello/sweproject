@@ -2,13 +2,18 @@ package com.mumscheduler.entry.model;
 
 import com.mumscheduler.block.model.Block;
 
+import java.time.LocalDate;
 import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.validation.constraints.NotNull;
+import javax.persistence.ManyToMany;
+import javax.persistence.Transient;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 public class Entry {
@@ -16,26 +21,24 @@ public class Entry {
 	@Id
 	@GeneratedValue
 	private Long id;
-	@NotNull
-	private String month;
-	@NotNull
-	private Integer year;
-	private Integer mppStudents;
-	private Integer fppStudents;
+	private String name;
+	private Integer mppNumber;
+	private Integer fppNumber;
+	//required
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@JsonFormat(pattern = "yyyy-MM-dd")
+	private LocalDate startdate;
+	//required
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@JsonFormat(pattern = "yyyy-MM-dd")
+	private LocalDate enddate;
+	@Transient
 	private Integer totalStudents;
 	
-	@OneToMany
+	@ManyToMany
 	private Set<Block> blocks;
+	
 	public Entry() {}
-
-	public Entry(String month, Integer year, Integer mppStudents, Integer fppStudents,
-			Integer totalStudents) {
-		this.month = month;
-		this.year = year;
-		this.mppStudents = mppStudents;
-		this.fppStudents = fppStudents;
-		this.totalStudents = mppStudents + fppStudents;
-	}
 
 	public Long getId() {
 		return id;
@@ -45,40 +48,56 @@ public class Entry {
 		this.id = id;
 	}
 
-	public String getMonth() {
-		return month;
+	public String getName() {
+		return name;
 	}
 
-	public void setMonth(String month) {
-		this.month = month;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public Integer getYear() {
-		return year;
+	public Integer getMppNumber() {
+		return mppNumber;
 	}
 
-	public void setYear(Integer year) {
-		this.year = year;
+	public void setMppNumber(Integer mppNumber) {
+		this.mppNumber = mppNumber;
 	}
 
-	public Integer getMppStudents() {
-		return mppStudents;
+	public Integer getFppNumber() {
+		return fppNumber;
 	}
 
-	public void setMppStudents(Integer mppStudents) {
-		this.mppStudents = mppStudents;
+	public void setFppNumber(Integer fppNumber) {
+		this.fppNumber = fppNumber;
 	}
 
-	public Integer getFppStudents() {
-		return fppStudents;
+	public LocalDate getStartdate() {
+		return startdate;
 	}
 
-	public void setFppStudents(Integer fppStudents) {
-		this.fppStudents = fppStudents;
+	public void setStartdate(LocalDate startdate) {
+		this.startdate = startdate;
+	}
+
+	public LocalDate getEnddate() {
+		return enddate;
+	}
+
+	public void setEnddate(LocalDate enddate) {
+		this.enddate = enddate;
+	}
+
+	public Set<Block> getBlocks() {
+		return blocks;
+	}
+
+	public void setBlocks(Set<Block> blocks) {
+		this.blocks = blocks;
 	}
 
 	public Integer getTotalStudents() {
-		return totalStudents;
+		return fppNumber + mppNumber;
 	}
 
 	public void setTotalStudents(Integer totalStudents) {
@@ -87,7 +106,7 @@ public class Entry {
 	
 	@Override
 	public String toString() {
-		return String.format("%s %d", month, year);
+		return String.format("%s, %s", name, startdate.toString());
 	}
 	
 	@Override
@@ -95,11 +114,7 @@ public class Entry {
 		if( obj == null) return false;
 		if( this.getClass() != obj.getClass()) return false;
 		Entry e = (Entry) obj;
-		boolean monthCompare = month.equals(e.getMonth());
-		if(monthCompare) {
-			return year.equals(e.getYear());
-		}
-		return monthCompare;
+		return name.equals(e.getName()) && startdate.equals(e.getStartdate());
 	}
 	
 	/**

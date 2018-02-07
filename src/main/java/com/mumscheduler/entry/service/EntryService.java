@@ -16,7 +16,6 @@ public class EntryService implements EntryServiceInterface {
 	
 	@Override
 	public Entry save(Entry entry) {
-		entry.setTotalStudents(entry.getFppStudents()+entry.getMppStudents());
 		return entryRepository.save(entry);
 	}
 
