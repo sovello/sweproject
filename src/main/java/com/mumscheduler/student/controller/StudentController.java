@@ -1,10 +1,10 @@
-package com.mumscheduler.faculty.controller;
+package com.mumscheduler.student.controller;
 
 import com.mumscheduler.block.service.BlockServiceInterface;
 import com.mumscheduler.course.service.CourseServiceInterface;
-import com.mumscheduler.faculty.model.Faculty;
-import com.mumscheduler.faculty.service.FacultyServiceInterface;
-import com.mumscheduler.faculty.validator.FacultyValidator;
+import com.mumscheduler.student.model.Student;
+import com.mumscheduler.student.service.StudentServiceInterface;
+import com.mumscheduler.student.validator.StudentValidator;
 
 import javax.validation.Valid;
 
@@ -20,10 +20,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-public class FacultyController {
+public class StudentController {
 
 	@Autowired
-	private FacultyServiceInterface facultyService;
+	private StudentServiceInterface studentService;
 
 	@Autowired
 	private BlockServiceInterface blockService;
@@ -32,30 +32,25 @@ public class FacultyController {
 	private CourseServiceInterface courseService;
 
 	@Autowired
-	private FacultyValidator facultyValidator;
-	
-//	@InitBinder
-//	protected void initBinder(WebDataBinder binder) {
-//		binder.addValidators(facultyValidator);
-//	}
+	private StudentValidator studentValidator;
 	
 	/**
 	 * change this when the URLs change this variable sets the current tab to active
 	 * in the HTML
 	 */
-	private final String activeTab = "faculty";
+	private final String activeTab = "student";
 
 	/**
 	 * Display all the courses
 	 * 
 	 * @return
 	 */
-	@GetMapping("/faculty")
-	public String facultyHome(Model model) {
+	@GetMapping("/students")
+	public String studentHome(Model model) {
 		model.addAttribute("activeTab", this.activeTab);
-		Iterable<Faculty> faculty = facultyService.getFacultyList();
-		model.addAttribute("faculties", faculty);
-		return "faculty/faculty-list";
+		Iterable<Student> student = studentService.getStudentList();
+		model.addAttribute("students", student);
+		return "student/student-list";
 	}
 
 	/**
@@ -64,52 +59,52 @@ public class FacultyController {
 	 * 
 	 * @return
 	 */
-	@PostMapping("/faculty")
-	public String createNewFaculty(@Valid @ModelAttribute("faculty") Faculty faculty, 
+	@PostMapping("/students")
+	public String createNewStudent(@Valid @ModelAttribute("student") Student student, 
 			BindingResult bindingResult, Model model) {
-		facultyValidator.validate(faculty, bindingResult);
+		studentValidator.validate(student, bindingResult);
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("activeTab", this.activeTab);
-			model.addAttribute("faculty", faculty);
+			model.addAttribute("student", student);
 			model.addAttribute("allCourses", courseService.getCourseList());
 			model.addAttribute("allBlocks", blockService.getBlockList());
-			return "faculty/faculty-form";
+			return "student/student-form";
 		}
-		facultyService.save(faculty);
-		return "redirect:/faculty";
+		studentService.save(student);
+		return "redirect:/students";
 	}
 
 	/**
 	 * Display an empty form to create a new course
 	 * 
-	 * add all courses to the form, to be displayed in faculty courses preferences
+	 * add all courses to the form, to be displayed in student courses preferences
 	 * to further decouple this, we could call using a webservice
 	 * 
 	 * @return
 	 */
-	@GetMapping("/faculty/new")
-	public String displayNewFacultyForm(Model model, @ModelAttribute("faculty") Faculty faculty) {
+	@GetMapping("/students/new")
+	public String displayNewStudentForm(Model model, @ModelAttribute("student") Student student) {
 		model.addAttribute("activeTab", this.activeTab);
 		model.addAttribute("allCourses", courseService.getCourseList());
 		model.addAttribute("allBlocks", blockService.getBlockList());
-		model.addAttribute("faculty", faculty);
-		return "faculty/faculty-form";
+		model.addAttribute("student", student);
+		return "student/student-form";
 	}
 
 	/**
 	 * Display a form pre-populated with the course details to edit add all courses
-	 * to the form, to be displayed in faculty courses preferences to further
+	 * to the form, to be displayed in student courses preferences to further
 	 * decouple this, we could call using a web-service
 	 * 
 	 * @return
 	 */
-	@RequestMapping(value = "/faculty/{id}", method = RequestMethod.GET)
-	public String displayEditFacultyForm(@PathVariable("id") Long id, Model model) {
+	@RequestMapping(value = "/students/{id}", method = RequestMethod.GET)
+	public String displayEditStudentForm(@PathVariable("id") Long id, Model model) {
 		model.addAttribute("activeTab", this.activeTab);
 		model.addAttribute("allCourses", courseService.getCourseList());
-		model.addAttribute("faculty", facultyService.getFaculty(id));
+		model.addAttribute("student", studentService.getStudent(id));
 		model.addAttribute("allBlocks", blockService.getBlockList());
-		return "faculty/faculty-form";
+		return "student/student-form";
 	}
 
 	/**
@@ -117,9 +112,9 @@ public class FacultyController {
 	 * 
 	 * @return
 	 */
-	@RequestMapping(value = "/faculty/{id}", method = RequestMethod.POST)
-	public String updateFaculty() {
-		return "redirect:/faculty-list";
+	@RequestMapping(value = "/students/{id}", method = RequestMethod.POST)
+	public String updateStudent() {
+		return "redirect:/student-list";
 	}
 	
 	/**
@@ -127,10 +122,11 @@ public class FacultyController {
 	 * 
 	 * @return
 	 */
-	@RequestMapping(value = "/faculty/{id}/profile", method = RequestMethod.GET)
-	public String viewFacultyProfile(Model model, @PathVariable("id") Long id) {
+	@RequestMapping(value = "/students/{id}/profile", method = RequestMethod.GET)
+	public String viewStudentProfile(Model model, @PathVariable("id") Long id) {
 		model.addAttribute("activeTab", this.activeTab);
-		model.addAttribute("faculty", facultyService.getFaculty(id));
-		return "faculty/faculty";
+		model.addAttribute("student", studentService.getStudent(id));
+		model.addAttribute("registeredSections", "registeredSections");
+		return "student/student";
 	}
 }
