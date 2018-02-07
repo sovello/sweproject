@@ -1,14 +1,18 @@
 package com.mumscheduler.section.model;
 
-import com.mumscheduler.block.model.Block;
 import com.mumscheduler.course.model.Course;
 import com.mumscheduler.faculty.model.Faculty;
+import com.mumscheduler.student.model.Student;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotNull;
+import javax.persistence.Transient;
 
 @Entity
 public class Section {
@@ -16,17 +20,23 @@ public class Section {
 	@Id
 	@GeneratedValue
 	private Long id;
-	@NotNull
+	
 	@ManyToOne
 	private Course course;
 	@ManyToOne
 	private Faculty faculty;
-	@NotNull
-	@ManyToOne
-	private Block block;
-	private Integer enrolledStudents;
-	private Integer sectionNumber;
 	
+	@ManyToMany
+	private Set<Student> students = new HashSet<Student>();
+	
+	@Transient
+	private Integer remainingSeats;
+	
+	@Transient
+	private Integer enrolledStudents;
+	
+	private Integer capacity;
+
 	public Section() {}
 
 	public Long getId() {
@@ -52,33 +62,41 @@ public class Section {
 	public void setFaculty(Faculty faculty) {
 		this.faculty = faculty;
 	}
-
-	public Block getBlock() {
-		return block;
+	
+	public Integer getCapacity() {
+		return capacity;
 	}
 
-	public void setBlock(Block block) {
-		this.block = block;
+	public void setCapacity(Integer capacity) {
+		this.capacity = capacity;
 	}
 
+	public Set<Student> getStudents() {
+		return students;
+	}
+
+	public void setStudents(Set<Student> students) {
+		this.students = students;
+	}
+
+	public Integer getRemainingSeats() {
+		return capacity - students.size();
+	}
+
+	public void setRemainingSeats(Integer remainingSeats) {
+		this.remainingSeats = remainingSeats;
+	}
+	
 	public Integer getEnrolledStudents() {
-		return enrolledStudents;
+		return students.size();
 	}
 
 	public void setEnrolledStudents(Integer enrolledStudents) {
 		this.enrolledStudents = enrolledStudents;
 	}
-	
-	public Integer getSectionNumber() {
-		return sectionNumber;
-	}
 
-	public void setSectionNumber(Integer sectionNumber) {
-		this.sectionNumber = sectionNumber;
-	}
-	
 	@Override
 	public String toString() {
-		return String.format("%s - %s", course.toString(), block.toString());
+		return String.format("%s - %s", course.toString(), faculty.toString());
 	}
 }

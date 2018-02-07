@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html layout:decorator="fragments/layout"
+xmlns="http://www.w3.org/1999/xhtml" 
+xmlns:th="http://www.thymeleaf.org" 
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+
+	<head>
+		<title th:text="#{index.title}">MUMSched</title>
+	</head>
+	<body>
+
+		<th:block layout:fragment="content">
+			<div class="container">
+				<!--<div class="col-sm-6 col-md-4 col-md-offset-4">-->
+				<div class="span4 offset4 well">
+					<table class="table table-hover">
+						<tbody>
+							<tr>
+								<th>Course</th><td th:text="${section.course}">SW425 - Software Engineering</td>
+							</tr>
+							<tr>
+								<th>Capacity</th><td th:text="${section.capacity}">25</td>
+							</tr>
+							<tr>
+								<th>Enrolled Students</th><td th:text="${section.enrolledStudents}">22</td>
+							</tr>
+							<tr>
+								<th>Available Seats</th><td th:text="${section.remainingSeats}">3</td>
+							</tr>
+							<tr>
+								<th>Faculty</th><td th:text="${section.faculty}">Sovello Hildebrand</td>
+							</tr>
+							<th:block th:if="${not #lists.isEmpty(section.students)}">
+								<tr>
+									<th>Enrolled Students</th>
+									<td>
+									<th:block th:each="student, idx: ${section.students}">
+						      			<span th:text="${idx.count}+' - '${student}">
+						      				January 2018 Block - 2018-01-15
+						      			</span><br />
+									</th:block>
+									</td>
+								</tr>
+							</th:block>
+							<tr>
+								<th>Preferred Courses</th>
+								<td>
+								<th:block th:each="prerequisite: ${faculty.courses}">
+					      			<span th:text="${prerequisite}">
+					      				SW - Software Engineering
+					      			</span><br />
+								</th:block>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				
+				</div>
+			</div>
+		</th:block>
+	</body>
+</html>

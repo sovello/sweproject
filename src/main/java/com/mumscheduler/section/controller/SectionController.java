@@ -1,7 +1,5 @@
 package com.mumscheduler.section.controller;
 
-import com.mumscheduler.block.service.BlockServiceInterface;
-import com.mumscheduler.course.service.CourseServiceInterface;
 import com.mumscheduler.faculty.service.FacultyServiceInterface;
 import com.mumscheduler.section.model.Section;
 import com.mumscheduler.section.service.SectionServiceInterface;
@@ -24,13 +22,7 @@ public class SectionController {
 
 	@Autowired
 	private SectionServiceInterface sectionService;
-	
-	@Autowired
-	private CourseServiceInterface courseService;
-	
-	@Autowired
-	private BlockServiceInterface blockService;
-	
+		
 	@Autowired
 	private FacultyServiceInterface facultyService;
 	
@@ -77,12 +69,10 @@ public class SectionController {
 	 * @return
 	 */
 	@GetMapping("/sections/new")
-	public String displayNewSectionForm(Model model) {
+	public String displayNewSectionForm(Model model, @ModelAttribute("section") Section section) {
 		model.addAttribute("activeTab", this.activeTab);
-		model.addAttribute("allCourses", courseService.getCourseList());
 		model.addAttribute("allFaculty", facultyService.getFacultyList());
-		model.addAttribute("allBlocks", blockService.getBlockList());
-		model.addAttribute("section", new Section());
+		model.addAttribute("section", section);
 		return "section/section-form";
 	}
 	
@@ -96,9 +86,7 @@ public class SectionController {
 	@RequestMapping(value="/sections/{id}", method=RequestMethod.GET)
 	public String displayEditSectionForm(@PathVariable("id") Long id, Model model) {
 		model.addAttribute("activeTab", this.activeTab);
-		model.addAttribute("allCourses", courseService.getCourseList());
 		model.addAttribute("allFaculty", facultyService.getFacultyList());
-		model.addAttribute("allBlocks", blockService.getBlockList());
 		model.addAttribute("section", sectionService.getSection(id));
 		return "section/section-form";
 	}
@@ -110,5 +98,17 @@ public class SectionController {
 	@RequestMapping(value="/sections/{id}", method=RequestMethod.POST)
 	public String updateSection() {
 		return "redirect:/sections";
+	}
+	
+	/**
+	 * View details of a section
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/sections/{id}/profile", method = RequestMethod.GET)
+	public String viewSectionProfile(Model model, @PathVariable("id") Long id) {
+		model.addAttribute("activeTab", this.activeTab);
+		model.addAttribute("faculty", sectionService.getSection(id));
+		return "section/section";
 	}
 }

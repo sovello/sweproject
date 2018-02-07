@@ -65,25 +65,18 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity" lang="en">
 			<!--<div class="col-sm-6 col-md-4 col-md-offset-4">-->
 			<div class="span4 offset4 well">
 				<form action="#" th:action="@{/sections}" th:object="${section}" method="post">
+				  	<input type="hidden" th:field="*{id}" />
 				  <div class="form-group">
-				    <label for="course">Course:</label>
-				    <select th:field="*{course}" class="form-control" id="course">
-				      <option value="">-- Select a course --</option>
-				      <option
-				      	th:each="course: ${allCourses}" 
-				      	th:value="${course.id}"
-				      	th:text="${course.name}">Machine Learning</option>
-				    </select>
+				    <label for="course">Course</label>
+				    <input type="text" th:field="*{course}" class="form-control" id="course" readonly="readonly" />
 				  </div>
 				  <div class="form-group">
-				    <label for="block">Block:</label>
-				    <select th:field="*{block}" class="form-control" id="block">
-				      <option value="">-- Select a block --</option>
-				      <option
-				      	th:each="blok: ${allBlocks}" 
-				      	th:value="${blok.id}"
-				      	th:text="${blok}">January 2018 - 2018-01-15</option>
-				    </select>
+				    <label for="capacity">Capacity</label>
+				    <input type="text" th:field="*{capacity}" class="form-control" id="capacity" readonly="readonly" />
+				  </div>
+				  <div class="form-group">
+				    <label for="enrolledStudents">Enrolled Students</label>
+				    <input type="text" th:field="*{enrolledStudents}" class="form-control" id="enrolledStudents" readonly="readonly" />
 				  </div>
 				  <div class="form-group">
 				    <label for="faculty">Faculty:</label>
@@ -94,21 +87,6 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity" lang="en">
 				      	th:value="${faculty.id}"
 				      	th:text="${faculty.name}">Sovello Hildebrand</option>
 				    </select>
-				  </div>
-				  <th:block th:if="${id != null}">
-				  	<input type="hidden" th:field="*{id}" />
-				  </th:block>
-				  <div class="form-group">
-				    <label for="enrolledStudents">Enrolled Students</label>
-				    <input type="text" th:field="*{enrolledStudents}" class="form-control" id="enrolledStudents" placeholder="30" />
-				    <div class="help-block with-errors" th:if="${#fields.hasErrors('enrolledStudents')}" th:errors="*{enrolledStudents}"></div>
-				  </div>
-				  <div class="form-group">
-				    <label for="sectionNumber">Section number</label>
-				    <div class='input-group date'>
-					    <input type="text" readonly="readonly" th:field="*{sectionNumber}" class="form-control" id="sectionNumber" placeholder="1" />
-					    <div class="help-block with-errors" th:if="${#fields.hasErrors('sectionNumber')}" th:errors="*{sectionNumber}"></div>
-					</div>
 				  </div>
 				  <div class="form-group text-right">
 				  	<label for="submitButton">
